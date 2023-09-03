@@ -9,6 +9,7 @@
 #include "Renderer.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
+#include "VertexArray.h"
 
 struct ShaderProgramSource {
     std::string vertexSource;
@@ -112,14 +113,12 @@ void render(GLFWwindow* window) {
         2, 3, 0
     };
 
-    unsigned int vao;
-    GLCall(glGenVertexArrays(1, &vao));
-    GLCall(glBindVertexArray(vao));
-
+    VertexArray va;
     VertexBuffer vb(positions, 4 * 2 * sizeof(float));
 
-    GLCall(glEnableVertexAttribArray(0));
-    GLCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0));
+    VertexBufferLayout layout;
+    layout.push<float>(2);
+    va.addBuffer(vb, layout);
 
     IndexBuffer ib(indices, 6);
 
@@ -132,7 +131,7 @@ void render(GLFWwindow* window) {
 
     // Unbind everything to demonstrate that we don't have to bind vertex buffer and index buffer,
     // but instead only the vertex array that they are connected to.
-    GLCall(glBindVertexArray(0));
+    va.unbind();
     GLCall(glUseProgram(0));
     GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
     GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
@@ -145,8 +144,7 @@ void render(GLFWwindow* window) {
         GLCall(glClear(GL_COLOR_BUFFER_BIT));
         /* Bind objects */
         GLCall(glUseProgram(shader));
-        GLCall(glBindVertexArray(vao));
-
+        va.bind();
         /* Set uniforms */
         GLCall(glUniform4f(u_Color, red, 0.3f, 0.8f, 1.0f));
         /* Render here */
