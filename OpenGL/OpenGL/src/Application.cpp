@@ -5,6 +5,7 @@
 
 #include "Renderer.h"
 #include "VertexBuffer.h"
+#include "VertexBufferLayout.h"
 #include "IndexBuffer.h"
 #include "VertexArray.h"
 #include "Shader.h"
@@ -41,19 +42,18 @@ void render(GLFWwindow* window) {
     vb.unbind();
     ib.unbind();
 
+    Renderer renderer;
+
     float red = 0.0f;
     float redDelta = 0.005f;
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
-        GLCall(glClear(GL_COLOR_BUFFER_BIT));
-        /* Bind objects */
+        renderer.clear();
+
         shader.bind();
-        va.bind();
-        /* Set uniforms */
         shader.setUniform4f("u_Color", red, 0.8f, 0.3f, 1.0f);
-        /* Render here */
-        GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+        renderer.draw(va, ib, shader);
 
         /* Update uniforms */
         if (red > 1.0f) {
