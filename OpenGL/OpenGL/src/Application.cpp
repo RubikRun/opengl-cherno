@@ -9,13 +9,14 @@
 #include "IndexBuffer.h"
 #include "VertexArray.h"
 #include "Shader.h"
+#include "Texture.h"
 
 void render(GLFWwindow* window) {
-    float positions[4 * 2] = {
-        -0.5f, -0.5f,
-        +0.5f, -0.5f,
-        +0.5f, +0.5f,
-        -0.5f, +0.5f,
+    float positions[] = {
+        -0.5f, -0.5f, 0.0f, 0.0f,
+        +0.5f, -0.5f, 1.0f, 0.0f,
+        +0.5f, +0.5f, 1.0f, 1.0f,
+        -0.5f, +0.5f, 0.0f, 1.0f
     };
 
     unsigned int indices[2 * 3] = {
@@ -24,9 +25,10 @@ void render(GLFWwindow* window) {
     };
 
     VertexArray va;
-    VertexBuffer vb(positions, 4 * 2 * sizeof(float));
+    VertexBuffer vb(positions, 4 * 4 * sizeof(float));
 
     VertexBufferLayout layout;
+    layout.push<float>(2);
     layout.push<float>(2);
     va.addBuffer(vb, layout);
 
@@ -34,6 +36,7 @@ void render(GLFWwindow* window) {
 
     Shader shader("res/shaders/Basic.shader");
     shader.bind();
+    shader.setUniform1i("u_Texture", 0);
 
     // Unbind everything to demonstrate that we don't have to bind vertex buffer and index buffer,
     // but instead only the vertex array that they are connected to.
@@ -41,6 +44,9 @@ void render(GLFWwindow* window) {
     shader.unbind();
     vb.unbind();
     ib.unbind();
+
+    Texture texture("res/textures/texture01.png");
+    texture.bind();
 
     Renderer renderer;
 
@@ -101,6 +107,10 @@ int main(void)
     }
 
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
+
+    // Setup blending function for textures
+    GLCall(glEnable(GL_BLEND));
+    GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
     render(window);
 
