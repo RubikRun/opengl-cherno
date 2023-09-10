@@ -11,6 +11,9 @@
 #include "Shader.h"
 #include "Texture.h"
 
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+
 void render(GLFWwindow* window) {
     float positions[] = {
         -0.5f, -0.5f, 0.0f, 0.0f,
@@ -34,9 +37,12 @@ void render(GLFWwindow* window) {
 
     IndexBuffer ib(indices, 6);
 
+    glm::mat4 proj = glm::ortho(-1.0f, 1.0f, -0.75f, 0.75f, -1.0f, 1.0f);
+
     Shader shader("res/shaders/Basic.shader");
     shader.bind();
     shader.setUniform1i("u_Texture", 0);
+    shader.setUniformMat4f("u_MVP", proj);
 
     // Unbind everything to demonstrate that we don't have to bind vertex buffer and index buffer,
     // but instead only the vertex array that they are connected to.
@@ -45,7 +51,7 @@ void render(GLFWwindow* window) {
     vb.unbind();
     ib.unbind();
 
-    Texture texture("res/textures/texture01.png");
+    Texture texture("res/textures/spongebob.png");
     texture.bind();
 
     Renderer renderer;
