@@ -14,12 +14,15 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
-void render(GLFWwindow* window) {
+void render(GLFWwindow* window, int windowWidth, int windowHeight) {
+    const int xCenter = windowWidth / 2;
+    const int yCenter = windowHeight / 2;
+    const float squareRadius = float(windowWidth) / 4.0f;
     float positions[] = {
-        -0.5f, -0.5f, 0.0f, 0.0f,
-        +0.5f, -0.5f, 1.0f, 0.0f,
-        +0.5f, +0.5f, 1.0f, 1.0f,
-        -0.5f, +0.5f, 0.0f, 1.0f
+        xCenter - squareRadius, yCenter - squareRadius, 0.0f, 0.0f,
+        xCenter + squareRadius, yCenter - squareRadius, 1.0f, 0.0f,
+        xCenter + squareRadius, yCenter + squareRadius, 1.0f, 1.0f,
+        xCenter - squareRadius, yCenter + squareRadius, 0.0f, 1.0f
     };
 
     unsigned int indices[2 * 3] = {
@@ -37,7 +40,7 @@ void render(GLFWwindow* window) {
 
     IndexBuffer ib(indices, 6);
 
-    glm::mat4 proj = glm::ortho(-1.0f, 1.0f, -0.75f, 0.75f, -1.0f, 1.0f);
+    glm::mat4 proj = glm::ortho(0.0f, float(windowWidth), 0.0f, float(windowHeight), - 1.0f, 1.0f);
 
     Shader shader("res/shaders/Basic.shader");
     shader.bind();
@@ -96,8 +99,11 @@ int main(void)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+    const int windowWidth = 640;
+    const int windowHeight = 480;
+
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(windowWidth, windowHeight, "Hello World", NULL, NULL);
     if (!window) {
         glfwTerminate();
         return -1;
@@ -118,7 +124,7 @@ int main(void)
     GLCall(glEnable(GL_BLEND));
     GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
-    render(window);
+    render(window, windowWidth, windowHeight);
 
     glfwTerminate();
     return 0;
