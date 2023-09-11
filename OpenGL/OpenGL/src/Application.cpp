@@ -14,6 +14,9 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw_gl3.h"
+
 void render(GLFWwindow* window, int windowWidth, int windowHeight) {
     const int xCenter = windowWidth / 2;
     const int yCenter = windowHeight / 2;
@@ -42,14 +45,10 @@ void render(GLFWwindow* window, int windowWidth, int windowHeight) {
 
     glm::mat4 proj = glm::ortho(0.0f, float(windowWidth), 0.0f, float(windowHeight), - 1.0f, 1.0f);
     glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(-100, 0, 0));
-    glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(200, 200, 0));
-
-    glm::mat4 mvp = proj * view * model;
 
     Shader shader("res/shaders/Basic.shader");
     shader.bind();
     shader.setUniform1i("u_Texture", 0);
-    shader.setUniformMat4f("u_MVP", mvp);
 
     // Unbind everything to demonstrate that we don't have to bind vertex buffer and index buffer,
     // but instead only the vertex array that they are connected to.
@@ -63,6 +62,12 @@ void render(GLFWwindow* window, int windowWidth, int windowHeight) {
 
     Renderer renderer;
 
+    ImGui::CreateContext();
+    ImGui_ImplGlfwGL3_Init(window, true);
+    ImGui::StyleColorsDark();
+
+    glm::vec3 translation(200, 200, 0);
+
     float red = 0.0f;
     float redDelta = 0.005f;
     /* Loop until the user closes the window */
@@ -70,8 +75,14 @@ void render(GLFWwindow* window, int windowWidth, int windowHeight) {
     {
         renderer.clear();
 
+        ImGui_ImplGlfwGL3_NewFrame();
+
+        glm::mat4 model = glm::translate(glm::mat4(1.0f), translation);
+        glm::mat4 mvp = proj * view * model;
+
         shader.bind();
         shader.setUniform4f("u_Color", red, 0.8f, 0.3f, 1.0f);
+        shader.setUniformMat4f("u_MVP", mvp);
         renderer.draw(va, ib, shader);
 
         /* Update uniforms */
@@ -82,6 +93,14 @@ void render(GLFWwindow* window, int windowWidth, int windowHeight) {
             redDelta *= -1.0f;
         }
         red += redDelta;
+
+        {
+            ImGui::SliderFloat3("Translation", &translation.x, 0.0f, float(windowWidth));
+            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+        }
+
+        ImGui::Render();
+        ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
@@ -130,6 +149,8 @@ int main(void)
 
     render(window, windowWidth, windowHeight);
 
+    ImGui_ImplGlfwGL3_Shutdown();
+    ImGui::DestroyContext();
     glfwTerminate();
     return 0;
 }
