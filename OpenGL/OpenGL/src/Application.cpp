@@ -19,6 +19,7 @@
 
 #include "tests/TestClearColor.h"
 #include "tests/TestTexture2D.h"
+#include "tests/TestBatchRendering.h"
 
 void render(GLFWwindow* window, int windowWidth, int windowHeight) {
     Renderer renderer;
@@ -33,6 +34,7 @@ void render(GLFWwindow* window, int windowWidth, int windowHeight) {
 
     testMenu->registerTest<test::TestClearColor>("Clear Color");
     testMenu->registerTest<test::TestTexture2D>("2D Texture");
+    testMenu->registerTest<test::TestBatchRendering>("Batch Rendering");
 
     while (!glfwWindowShouldClose(window))
     {

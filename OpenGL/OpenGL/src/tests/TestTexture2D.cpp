@@ -30,7 +30,7 @@ namespace test {
             2, 3, 0
         };
 
-        shader = std::make_unique<Shader>("res/shaders/Basic.shader");
+        shader = std::make_unique<Shader>("res/shaders/Texture2D.shader");
         vertexArray = std::make_unique<VertexArray>();
         vertexBuffer = std::make_unique<VertexBuffer>(positions, 4 * 4 * sizeof(float));
 
