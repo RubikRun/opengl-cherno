@@ -69,6 +69,9 @@
     <ClCompile Include="src\tests\TestBatchRendering.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\tests\TestBatchRenderingColors.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Texture2D.shader" />
@@ -481,6 +484,7 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="res\shaders\BatchRendering.shader" />
+    <None Include="res\shaders\BatchRenderingColors.shader" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\IndexBuffer.h">
@@ -1384,6 +1388,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\tests\TestBatchRendering.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tests\TestBatchRenderingColors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
