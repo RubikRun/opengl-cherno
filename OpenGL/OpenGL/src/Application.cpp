@@ -21,6 +21,7 @@
 #include "tests/TestTexture2D.h"
 #include "tests/TestBatchRendering.h"
 #include "tests/TestBatchRenderingColors.h"
+#include "tests/TestBatchRenderingTextures.h"
 
 void render(GLFWwindow* window, int windowWidth, int windowHeight) {
     Renderer renderer;
@@ -37,6 +38,7 @@ void render(GLFWwindow* window, int windowWidth, int windowHeight) {
     testMenu->registerTest<test::TestTexture2D>("2D Texture");
     testMenu->registerTest<test::TestBatchRendering>("Batch Rendering");
     testMenu->registerTest<test::TestBatchRenderingColors>("Batch Rendering Colors");
+    testMenu->registerTest<test::TestBatchRenderingTextures>("Batch Rendering Textures");
 
     while (!glfwWindowShouldClose(window))
     {
