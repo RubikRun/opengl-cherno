@@ -15,12 +15,14 @@ bool GLLogCall(const char* function, const char* file, int line) {
     return true;
 }
 
-void Renderer::draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader) const {
+void Renderer::draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader, int indicesToDraw) const {
     shader.bind();
     va.bind();
     ib.bind();
 
-    GLCall(glDrawElements(GL_TRIANGLES, ib.getCount(), GL_UNSIGNED_INT, nullptr));
+    const int idxCount = (indicesToDraw == -1) ? ib.getCount() : indicesToDraw;
+    ASSERT(idxCount > 0 && idxCount < ib.getCount());
+    GLCall(glDrawElements(GL_TRIANGLES, idxCount, GL_UNSIGNED_INT, nullptr));
 }
 
 void Renderer::clear() const {

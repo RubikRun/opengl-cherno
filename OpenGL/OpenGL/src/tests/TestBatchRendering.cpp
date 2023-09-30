@@ -39,7 +39,7 @@ namespace test {
 
         shader = std::make_unique<Shader>("res/shaders/BatchRendering.shader");
         vertexArray = std::make_unique<VertexArray>();
-        vertexBuffer = std::make_unique<VertexBuffer>(positions, 8 * 2 * sizeof(float));
+        vertexBuffer = std::make_unique<VertexBuffer>(positions, 8 * 2 * sizeof(float), GL_STATIC_DRAW);
 
         VertexBufferLayout layout;
         layout.push<float>(2);

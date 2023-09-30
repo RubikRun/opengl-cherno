@@ -146,6 +146,7 @@
     <ClCompile Include="src\tests\Test.cpp" />
     <ClCompile Include="src\tests\TestBatchRendering.cpp" />
     <ClCompile Include="src\tests\TestBatchRenderingColors.cpp" />
+    <ClCompile Include="src\tests\TestBatchRenderingDynamic.cpp" />
     <ClCompile Include="src\tests\TestBatchRenderingTextures.cpp" />
     <ClCompile Include="src\tests\TestClearColor.cpp" />
     <ClCompile Include="src\tests\TestTexture2D.cpp" />
@@ -163,6 +164,7 @@
   <ItemGroup>
     <None Include="res\shaders\BatchRendering.shader" />
     <None Include="res\shaders\BatchRenderingColors.shader" />
+    <None Include="res\shaders\BatchRenderingDynamic.shader" />
     <None Include="res\shaders\BatchRenderingTextures.shader" />
     <None Include="res\shaders\Texture2D.shader" />
     <None Include="src\vendor\glm\detail\func_common.inl" />
@@ -309,6 +311,7 @@
     <ClInclude Include="src\tests\Test.h" />
     <ClInclude Include="src\tests\TestBatchRendering.h" />
     <ClInclude Include="src\tests\TestBatchRenderingColors.h" />
+    <ClInclude Include="src\tests\TestBatchRenderingDynamic.h" />
     <ClInclude Include="src\tests\TestBatchRenderingTextures.h" />
     <ClInclude Include="src\tests\TestClearColor.h" />
     <ClInclude Include="src\tests\TestTexture2D.h" />

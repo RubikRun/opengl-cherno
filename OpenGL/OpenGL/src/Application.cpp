@@ -22,6 +22,7 @@
 #include "tests/TestBatchRendering.h"
 #include "tests/TestBatchRenderingColors.h"
 #include "tests/TestBatchRenderingTextures.h"
+#include "tests/TestBatchRenderingDynamic.h"
 
 void render(GLFWwindow* window, int windowWidth, int windowHeight) {
     Renderer renderer;
@@ -39,6 +40,8 @@ void render(GLFWwindow* window, int windowWidth, int windowHeight) {
     testMenu->registerTest<test::TestBatchRendering>("Batch Rendering");
     testMenu->registerTest<test::TestBatchRenderingColors>("Batch Rendering Colors");
     testMenu->registerTest<test::TestBatchRenderingTextures>("Batch Rendering Textures");
+    testMenu->registerTest<test::TestBatchRenderingDynamic>("Batch Rendering Dynamic");
+    currentTest = new test::TestBatchRenderingDynamic;
 
     while (!glfwWindowShouldClose(window))
     {

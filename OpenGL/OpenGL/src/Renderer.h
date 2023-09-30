@@ -19,6 +19,6 @@ class Renderer
 {
 
 public:
-    void draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader) const;
+    void draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader, int indicesToDraw = -1) const;
     void clear() const;
 };
